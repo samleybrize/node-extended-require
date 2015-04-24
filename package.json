@@ -1,0 +1,19 @@
+{
+    "name": "node-extended-require",
+    "version": "0.1.0",
+    "private": true,
+    "description": "todo",
+    "author": "Stephen Berquet",
+    "licenses": [
+        {
+          "type": "MIT",
+          "url": "https://github.com/bower/bower/blob/master/LICENSE"
+        }
+    ],
+    "engines": {
+        "node": ">=0.10.0"
+    },
+    "dependencies": {
+        "path-is-absolute": "~1.0.0"
+    }
+}
