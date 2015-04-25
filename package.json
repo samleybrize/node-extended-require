@@ -1,8 +1,8 @@
 {
-    "name": "node-extended-require",
+    "name": "extended-require",
     "version": "0.1.0",
     "private": true,
-    "description": "todo",
+    "description": "Enhanced require",
     "author": "Stephen Berquet",
     "licenses": [
         {
