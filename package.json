@@ -15,5 +15,12 @@
     },
     "dependencies": {
         "path-is-absolute": "~1.0.0"
+    },
+    "devDependencies": {
+        "mocha": "~2.2.4",
+        "chai": "~2.3.0"
+    },
+    "scripts": {
+        "test": "mocha -R spec ./tests/tests.js"
     }
 }
