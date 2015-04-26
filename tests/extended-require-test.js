@@ -29,20 +29,8 @@ describe("extended-require", function() {
         });
 
         it("throw if no file found and no fallback", function() {
-            // TODO there is a known limitation of the custom require() function
-            // it can't be easily used with bind(), because the caller file of require() may be different
-            // than the file where the bind() function has been created
             extendedRequire.newIncludePath("/directory/that/does/not/exists");
-            var expectedMessage = "No include path set satisfies 'somefile' from '" + __filename + "'";
-
-            try {
-                extendedRequire.require("somefile", false);
-            } catch (err) {
-                chai.expect(err.message).to.equal(expectedMessage);
-                return;
-            }
-
-            chai.expect(function(){}).to.throw(expectedMessage);
+            chai.expect(extendedRequire.require.bind(extendedRequire, "somefile", false)).to.throw("No include path set satisfies 'somefile' from '" + __filename + "'");
         });
 
         it("no file found with fallback", function() {
