@@ -10,6 +10,10 @@
           "url": "https://github.com/bower/bower/blob/master/LICENSE"
         }
     ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/samleybrize/node-extended-require"
+    },
     "main": "lib/extended-require",
     "engines": {
         "node": ">=0.10.0"
