@@ -16,6 +16,13 @@ describe("IncludePath", function() {
         });
     });
 
+    describe(".getRootDirectory()", function() {
+        it("return expected value", function() {
+            var o = new IncludePath("/path/to/root");
+            chai.expect(o.getRootDirectory()).to.equal("/path/to/root");
+        });
+    });
+
     describe(".isInRootDirectory()", function() {
        it("correctly detect", function() {
            var o = new IncludePath("/path/to/root");

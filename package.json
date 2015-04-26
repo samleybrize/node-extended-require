@@ -10,6 +10,7 @@
           "url": "https://github.com/bower/bower/blob/master/LICENSE"
         }
     ],
+    "main": "lib/extended-require",
     "engines": {
         "node": ">=0.10.0"
     },
