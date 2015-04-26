@@ -21,6 +21,6 @@
         "chai": "~2.3.0"
     },
     "scripts": {
-        "test": "mocha -R spec ./tests/tests.js"
+        "test": "mocha -R spec --full-trace ./tests/tests.js"
     }
 }
