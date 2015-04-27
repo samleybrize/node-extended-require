@@ -1,5 +1,6 @@
 var IncludePath = require("../lib/include-path");
 var chai        = require("chai");
+var proxyquire  = require('proxyquire').noPreserveCache();
 
 describe("IncludePath", function() {
     describe("Constructor", function() {
@@ -65,35 +66,38 @@ describe("IncludePath", function() {
        });
 
        it("use path cache", function() {
+           var disableFs    = false;
+           var fsStub       = {
+               existsSync: function(path) {
+                   if (disableFs) {
+                       throw new Error("fs.existsSync() has been called");
+                   } else {
+                       return require("fs").existsSync(path);
+                   }
+               },
+               "@noCallThru": true
+           };
+           IncludePath      = proxyquire("../lib/include-path", {
+               fs: fsStub
+           });
+
            var o = new IncludePath(__dirname);
            o.add("./fixtures/include-path");
            o.add("./fixtures/include-path/sub");
 
+           // fill the path cache
            chai.expect(o.resolve("to-be-included")).to.equal(__dirname + "/fixtures/include-path/to-be-included.js");
            chai.expect(o.resolve("/to-be-included.js")).to.equal(__dirname + "/fixtures/include-path/to-be-included.js");
            chai.expect(o.resolve("to-be-included-sub")).to.equal(__dirname + "/fixtures/include-path/sub/to-be-included-sub.js");
            chai.expect(o.resolve("not-exists")).to.equal(null);
 
            // disable fs.existsSync() that is used internally by IncludePath.resolve()
-           var fs           = require("fs");
-           var existsSync   = fs.existsSync;
-           fs.existsSync    = function() {
-               throw new Error("fs.existsSync() has been called");
-           };
+           disableFs = true;
 
-           try {
-               chai.expect(o.resolve("to-be-included")).to.equal(__dirname + "/fixtures/include-path/to-be-included.js");
-               chai.expect(o.resolve("/to-be-included.js")).to.equal(__dirname + "/fixtures/include-path/to-be-included.js");
-               chai.expect(o.resolve("to-be-included-sub")).to.equal(__dirname + "/fixtures/include-path/sub/to-be-included-sub.js");
-               chai.expect(o.resolve("not-exists")).to.equal(null);
-           } catch (err) {
-               // restore fs.existsSync()
-               fs.existsSync = existsSync;
-               throw err;
-           }
-
-           // restore fs.existsSync()
-           fs.existsSync = existsSync;
+           chai.expect(o.resolve("to-be-included")).to.equal(__dirname + "/fixtures/include-path/to-be-included.js");
+           chai.expect(o.resolve("/to-be-included.js")).to.equal(__dirname + "/fixtures/include-path/to-be-included.js");
+           chai.expect(o.resolve("to-be-included-sub")).to.equal(__dirname + "/fixtures/include-path/sub/to-be-included-sub.js");
+           chai.expect(o.resolve("not-exists")).to.equal(null);
        });
 
        it("throw if not a string", function() {
