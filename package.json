@@ -2,7 +2,7 @@
     "name": "extended-require",
     "version": "0.1.0",
     "private": true,
-    "description": "Enhanced require",
+    "description": "Extends require() capabilities",
     "author": "Stephen Berquet",
     "licenses": [
         {
