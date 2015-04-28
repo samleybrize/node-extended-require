@@ -77,11 +77,11 @@ describe("IncludePath", function() {
                },
                "@noCallThru": true
            };
-           IncludePath      = proxyquire("../lib/include-path", {
+           var IncludePathStubbed = proxyquire("../lib/include-path", {
                fs: fsStub
            });
 
-           var o = new IncludePath(__dirname);
+           var o = new IncludePathStubbed(__dirname);
            o.add("./fixtures/include-path");
            o.add("./fixtures/include-path/sub");
 
