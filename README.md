@@ -89,6 +89,22 @@ Requires a module using defined include path sets.
 The `path` arg is the path to the module to be loaded and can be absolute or relative to one of include paths. An include path set id can be specified as an array, on the form `[id, path]`.
 In that case, only the include path set referenced by this identifier will be used, and no check of the include path set root directory will be performed.
 
+Example :
+
+```javascript
+var er              = require("extended-require");
+var extendedRequire = er.require;
+
+var includePath1    = er.newIncludePath("lib", "id1");
+var includePath2    = er.newIncludePath("other/dir", "id2");
+
+// might be /path/to/project/lib/file.js or /path/to/project/other/dir/file.js
+var file1 = extendedRequire("file.js");
+
+// might be only /path/to/project/other/dir/file.js
+var file2 = extendedRequire(["id2", "file.js"]);
+```
+
 The `fallbackToBuiltin` arg indicates if the `path` arg has to be passed to the builtin `require()` function in case no include path set satisfies required `path`. Defaults to true.
 If an include path set id is specified, `fallbackToBuiltin` is always false.
 
