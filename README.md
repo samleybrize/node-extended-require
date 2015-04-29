@@ -9,7 +9,7 @@ Extends `require()` capabilities.
 You can install with `npm`:
 
 ```bash
-npm install node-extended-require
+npm install extended-require
 ```
 
 ## Usage
