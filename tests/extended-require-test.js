@@ -78,12 +78,12 @@ describe("extended-require", function() {
         it("file found with identifier", function() {
             extendedRequire.newIncludePath(__dirname).add("fixtures/include-path");
             extendedRequire.newIncludePath(__dirname, "idtest").add("fixtures/include-path2");
-            
+
             var o1              = extendedRequire.require(["idtest", "to-be-included"]);
             var o2              = extendedRequire.require("to-be-included");
             var expectedPath1   = __dirname + "/fixtures/include-path2/to-be-included.js";
             var expectedPath2   = __dirname + "/fixtures/include-path/to-be-included.js";
-            
+
             chai.expect(o1.fullpath).to.equal(expectedPath1);
             chai.expect(o2.fullpath).to.equal(expectedPath2);
         });

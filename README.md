@@ -47,10 +47,12 @@ extendedRequire.bind(extendedRequire, "dir/file");
 
 ## API
 
-### newIncludePath(rootDirectory)
+### newIncludePath(rootDirectory, [id])
 
 Creates a new include path set. The `rootDirectory` arg can be absolute or relative to the file that call it. This arg is used to filter include path sets. For example, if you set it to `/path/to/dir`,
 only files that resides into that directory will use that include path set on a call to `require()`. For files that are outside that directory, this include path set will be ignored.
+
+If the optional `id` arg is given, it will be set as the identifier of the include path set created.
 
 Returns an instance of `IncludePath`.
 
@@ -80,13 +82,15 @@ and the resulting absolute path is returned as soon as it exists on the filesyst
 
 Discards all include path sets.
 
-### require(id, fallbackToBuiltin)
+### require(path, [fallbackToBuiltin])
 
 Requires a module using defined include path sets.
 
-The `id` arg is the path to the module to be loaded and can be absolute or relative to one of include paths.
+The `path` arg is the path to the module to be loaded and can be absolute or relative to one of include paths. An include path set id can be specified as an array, on the form `[id, path]`.
+In that case, only the include path set referenced by this identifier will be used, and no check of the include path set root directory will be performed.
 
-The `fallbackToBuiltin` arg indicates if the `id` arg has to be passed to the builtin `require()` function in case no include path set satisfies required `id`. Defaults to true.
+The `fallbackToBuiltin` arg indicates if the `path` arg has to be passed to the builtin `require()` function in case no include path set satisfies required `path`. Defaults to true.
+If an include path set id is specified, `fallbackToBuiltin` is always false.
 
 ## Author
 
