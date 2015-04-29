@@ -24,19 +24,42 @@ describe("extended-require", function() {
     });
 
     describe(".require()", function() {
-        it("throw if not a string", function() {
-            chai.expect(extendedRequire.require.bind(extendedRequire, 4)).to.throw("'id' must be a string, [number] given");
+        it("throw if pathToRequire is not a string", function() {
+            chai.expect(extendedRequire.require.bind(extendedRequire, 4)).to.throw("'pathToRequire' must be a string, [number] given");
+        });
+
+        it("throw if include path set identifier is not a string", function() {
+            chai.expect(extendedRequire.require.bind(extendedRequire, [4, "test"])).to.throw("Include path set identifier must be a string, [number] given");
+            chai.expect(extendedRequire.require.bind(extendedRequire, ["", "test"])).to.throw("Include path set identifier must be a string, [object] given");
         });
 
         it("throw if no file found and no fallback", function() {
-            extendedRequire.newIncludePath("/directory/that/does/not/exists");
+            extendedRequire.newIncludePath("/directory/that/does/not/exists", "idtest");
             chai.expect(extendedRequire.require.bind(extendedRequire, "somefile", false)).to.throw("No include path set satisfies 'somefile' from '" + __filename + "'");
+            chai.expect(extendedRequire.require.bind(extendedRequire, ["idtest", "somefile"], false)).to.throw("Include path set 'idtest' does not satisfies 'somefile'");
+        });
+
+        it("throw if include path set id not found", function() {
+            extendedRequire.newIncludePath("/directory/that/does/not/exists", "idtest");
+            chai.expect(extendedRequire.require.bind(extendedRequire, ["idnotfound", "somefile"], false)).to.throw("No include path set with id 'idnotfound' found");
         });
 
         it("no file found with fallback", function() {
             extendedRequire.newIncludePath(__dirname).add("fixtures");
             var o = extendedRequire.require("chai");
             chai.expect(o).to.equal(chai);
+        });
+
+        it("no file found with identifier", function() {
+            extendedRequire.newIncludePath(__dirname, "idtest").add("fixtures");
+            chai.expect(extendedRequire.require.bind(extendedRequire, ["idtest", "chai"], false)).to.throw("Include path set 'idtest' does not satisfies 'chai'");
+            chai.expect(extendedRequire.require.bind(extendedRequire, ["idtest", "chai"], true)).to.throw("Include path set 'idtest' does not satisfies 'chai'");
+        });
+
+        it("no file found with identifier and path cache", function() {
+            extendedRequire.newIncludePath(__dirname, "idtest").add("fixtures");
+            var o = extendedRequire.require("chai");
+            chai.expect(extendedRequire.require.bind(extendedRequire, ["idtest", "chai"])).to.throw("Include path set 'idtest' does not satisfies 'chai'");
         });
 
         it("file found", function() {
@@ -50,6 +73,19 @@ describe("extended-require", function() {
             chai.expect(o1.fullpath).to.equal(expectedPath);
             chai.expect(o2.fullpath).to.equal(expectedPath);
             chai.expect(o3.fullpath).to.equal(expectedPath);
+        });
+
+        it("file found with identifier", function() {
+            extendedRequire.newIncludePath(__dirname).add("fixtures/include-path");
+            extendedRequire.newIncludePath(__dirname, "idtest").add("fixtures/include-path2");
+            
+            var o1              = extendedRequire.require(["idtest", "to-be-included"]);
+            var o2              = extendedRequire.require("to-be-included");
+            var expectedPath1   = __dirname + "/fixtures/include-path2/to-be-included.js";
+            var expectedPath2   = __dirname + "/fixtures/include-path/to-be-included.js";
+            
+            chai.expect(o1.fullpath).to.equal(expectedPath1);
+            chai.expect(o2.fullpath).to.equal(expectedPath2);
         });
     });
 });
