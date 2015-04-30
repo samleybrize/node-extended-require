@@ -9,6 +9,9 @@
           "url": "https://github.com/bower/bower/blob/master/LICENSE"
         }
     ],
+    "keywords": [
+        "require"
+    ],
     "repository": {
         "type": "git",
         "url": "https://github.com/samleybrize/node-extended-require"
@@ -18,7 +21,8 @@
         "node": ">=0.10.0"
     },
     "dependencies": {
-        "path-is-absolute": "~1.0.0"
+        "path-is-absolute": "~1.0.0",
+        "caller": "~1.0.0"
     },
     "devDependencies": {
         "mocha": "~2.2.4",
