@@ -14,9 +14,9 @@ npm install extended-require
 
 ## Usage
 
-```javascript
-/* /path/to/project/index.js */
+**/path/to/project/index.js :**
 
+```javascript
 var er              = require("extended-require");
 var extendedRequire = er.require;
 
@@ -47,7 +47,7 @@ extendedRequire.bind(extendedRequire, "dir/file");
 
 ## API
 
-### newIncludePath(rootDirectory, [id])
+***newIncludePath({string} rootDirectory [, {string} id])***
 
 Creates a new include path set. The `rootDirectory` arg can be absolute or relative to the file that call it. This arg is used to filter include path sets. For example, if you set it to `/path/to/dir`,
 only files that resides into that directory will use that include path set on a call to `require()`. For files that are outside that directory, this include path set will be ignored.
@@ -56,40 +56,20 @@ If the optional `id` arg is given, it will be set as the identifier of the inclu
 
 Returns an instance of `IncludePath`.
 
-#### IncludePath.add(path)
-
-Adds an include path to the include path set. The `path` arg is always relative to the root directory of the include path set. Note that only paths added with the `add()` method
-will be used to require files/dirs (the root directory is only used as a filter). To include the root directory itself, use `includePath.add('.')`.
-
-#### IncludePath.getRootDirectory()
-
-Returns the root directory of the include path set.
-
-#### IncludePath.reset()
-
-Resets the include path set (the root directory is preserved).
-
-#### IncludePath.isInRootDirectory(path)
-
-Indicates if the `path` arg is in the root directory of the include path set. `path` must be absolute;
-
-#### IncludePath.resolve(path)
-
-Resolves a path. If the path is a JavaScript file, the '.js' extension can be omitted. The path is appended to each include path in the order they have been declared,
-and the resulting absolute path is returned as soon as it exists on the filesystem. Returns null if no file were found. `path` is alwayd considered a relative path.
-
-### resetIncludePathList()
+***resetIncludePathList()***
 
 Discards all include path sets.
 
-### require(path, [fallbackToBuiltin])
+***require({string|Array} path [, {boolean} fallbackToBuiltin])***
 
 Requires a module using defined include path sets.
 
-The `path` arg is the path to the module to be loaded and can be absolute or relative to one of include paths. An include path set id can be specified as an array, on the form `[id, path]`.
+The `path` arg is the path to the module to be loaded and can be absolute or relative to one of include paths. An include path set id can be specified as an array, in the form `[id, path]`.
 In that case, only the include path set referenced by this identifier will be used, and no check of the include path set root directory will be performed.
 
 Example :
+
+/path/to/project/index.js :
 
 ```javascript
 var er              = require("extended-require");
@@ -107,6 +87,30 @@ var file2 = extendedRequire(["id2", "file.js"]);
 
 The `fallbackToBuiltin` arg indicates if the `path` arg has to be passed to the builtin `require()` function in case no include path set satisfies required `path`. Defaults to true.
 If an include path set id is specified, `fallbackToBuiltin` is always false.
+
+### IncludePath object
+
+***IncludePath.add({string} path)***
+
+Adds an include path to the include path set. The `path` arg is always relative to the root directory of the include path set. Note that only paths added with the `add()` method
+will be used to require files/dirs (the root directory is only used as a filter). To include the root directory itself, use `includePath.add('.')`.
+
+***IncludePath.getRootDirectory()***
+
+Returns the root directory of the include path set.
+
+***IncludePath.reset()***
+
+Resets the include path set (the root directory is preserved).
+
+***IncludePath.isInRootDirectory({string} path)***
+
+Indicates if the `path` arg is in the root directory of the include path set. `path` must be absolute;
+
+***IncludePath.resolve({string} path)***
+
+Resolves a path. If the path is a JavaScript file, the '.js' extension can be omitted. The path is appended to each include path in the order they have been declared,
+and the resulting absolute path is returned as soon as it exists on the filesystem. Returns null if no file were found. `path` is alwayd considered a relative path.
 
 ## Author
 
