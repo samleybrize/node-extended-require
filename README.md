@@ -113,6 +113,56 @@ extendedRequire.bind(extendedRequire, "dir/file");
 > Resolves a path. If the path is a JavaScript file, the '.js' extension can be omitted. The path is appended to each include path in the order they have been declared,
 > and the resulting absolute path is returned as soon as it exists on the filesystem. Returns null if no file were found. `path` is alwayd considered a relative path.
 
+## Configure automatically
+
+You can save you the effort to programmatically configure include path sets by adding them to your `package.json`.
+
+```javascript
+{
+    // ...
+    "extended-require": [
+        // first include path set
+        {
+            "rootDirectory": ".", // required
+            "id": "idtest", // optional
+            "include-path": ["lib", "other/dir"] // required
+        },
+        // second include path set
+        {
+            "rootDirectory": "sub/dir",
+            "include-path": ["sublib"]
+        }
+    ]
+}
+```
+
+- The `rootDirectory` parameter defines the root directory of the include path set. It can be absolute or relative to the `package.json` file.
+- The `id` parameter defines the include path set identifier and is optional.
+- The `include-path` parameter defines include paths.
+
+The above example is equivalent to :
+
+```javascript
+// lib/index.js
+
+var er = require("extended-require");
+
+var includePath1 = er.newIncludePath("..", "idtest");
+includePath1.add("lib");
+includePath1.add("other/dir");
+
+var includePath2 = er.newIncludePath("sub/dir");
+includePath1.add("sublib");
+```
+
+When you call the module's `require()` function, the closest `package.json` is loaded and include path sets it contains are configured.
+The closest `package.json` is first searched in the directory containing the file that called the module's `require()` function, then
+its parent directory, and so on until a `package.json` file is found or the file system root directory is reached.
+
+**Note:** you don't need a `package.json`. If you don't have one, no error is thrown.
+
+**Note 2:** if you don't want to put any include path set in your `package.json`, don't include a `extended-require` key!
+
 ## Author
 
 This project is authored and maintained by Stephen Berquet.
