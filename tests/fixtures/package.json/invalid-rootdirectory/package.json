@@ -1,0 +1,8 @@
+{
+    "extended-require": [
+        {
+            "rootDirectory": false,
+            "include-path": ["lib"]
+        }
+    ]
+}

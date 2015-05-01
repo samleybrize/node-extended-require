@@ -1,0 +1,13 @@
+{
+    "extended-require": [
+        {
+            "rootDirectory": ".",
+            "include-path": ["lib2"]
+        },
+        {
+            "rootDirectory": ".",
+            "id": "idtest",
+            "include-path": ["lib"]
+        }
+    ]
+}
