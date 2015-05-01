@@ -10,7 +10,10 @@
         }
     ],
     "keywords": [
-        "require"
+        "require",
+        "extended",
+        "relative",
+        "include"
     ],
     "repository": {
         "type": "git",
