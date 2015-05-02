@@ -92,32 +92,32 @@ describe("extended-require", function() {
 
     describe(".require() + package.json", function() {
         it("invalid 'extended-require'", function() {
-            var fn = extendedRequire.require.bind(extendedRequire, "test", false, __dirname + "/fixtures/package.json/invalid-extended-require");
+            var fn = extendedRequire.require.bind(extendedRequire, "test", false, __dirname + "/fixtures/package-json/invalid-extended-require");
             chai.expect(fn).to.throw("'extended-require' config must be an array");
         });
 
         it("invalid 'extended-require' entry", function() {
-            var fn = extendedRequire.require.bind(extendedRequire, "test", false, __dirname + "/fixtures/package.json/invalid-extended-require-entry");
+            var fn = extendedRequire.require.bind(extendedRequire, "test", false, __dirname + "/fixtures/package-json/invalid-extended-require-entry");
             chai.expect(fn).to.throw("'extended-require:0' config must be an object");
         });
 
         it("invalid root directory", function() {
-            var fn = extendedRequire.require.bind(extendedRequire, "test", false, __dirname + "/fixtures/package.json/invalid-rootdirectory");
+            var fn = extendedRequire.require.bind(extendedRequire, "test", false, __dirname + "/fixtures/package-json/invalid-rootdirectory");
             chai.expect(fn).to.throw("Required 'extended-require:0:rootDirectory' config must be a non-empty string");
         });
 
         it("invalid id", function() {
-            var fn = extendedRequire.require.bind(extendedRequire, "test", false, __dirname + "/fixtures/package.json/invalid-id");
+            var fn = extendedRequire.require.bind(extendedRequire, "test", false, __dirname + "/fixtures/package-json/invalid-id");
             chai.expect(fn).to.throw("Optional 'extended-require:0:id' config must be a non-empty string");
         });
 
         it("invalid include-path", function() {
-            var fn = extendedRequire.require.bind(extendedRequire, "test", false, __dirname + "/fixtures/package.json/invalid-includepath");
+            var fn = extendedRequire.require.bind(extendedRequire, "test", false, __dirname + "/fixtures/package-json/invalid-includepath");
             chai.expect(fn).to.throw("Required 'extended-require:0:include-path' config must be an array");
         });
 
         it("invalid include-path entry", function() {
-            var fn = extendedRequire.require.bind(extendedRequire, "test", false, __dirname + "/fixtures/package.json/invalid-includepath-entry");
+            var fn = extendedRequire.require.bind(extendedRequire, "test", false, __dirname + "/fixtures/package-json/invalid-includepath-entry");
             chai.expect(fn).to.throw("'extended-require:0:include-path:1' config must be a non-empty string");
         });
 
@@ -130,11 +130,11 @@ describe("extended-require", function() {
         });
 
         it("valid", function() {
-            var o1 = extendedRequire.require("toload", false, __dirname + "/fixtures/package.json/valid/other-dir");
-            var o2 = extendedRequire.require(["idtest", "toload"], false, __dirname + "/fixtures/package.json/valid");
+            var o1 = extendedRequire.require("toload", false, __dirname + "/fixtures/package-json/valid/other-dir");
+            var o2 = extendedRequire.require(["idtest", "toload"], false, __dirname + "/fixtures/package-json/valid");
 
-            chai.expect(o1).to.equal(__dirname + "/fixtures/package.json/valid/lib2/toload.js");
-            chai.expect(o2).to.equal(__dirname + "/fixtures/package.json/valid/lib/toload.js");
+            chai.expect(o1).to.equal(__dirname + "/fixtures/package-json/valid/lib2/toload.js");
+            chai.expect(o2).to.equal(__dirname + "/fixtures/package-json/valid/lib/toload.js");
         });
 
         it("package.json config not loaded twice", function() {
@@ -159,12 +159,12 @@ describe("extended-require", function() {
             });
 
             // require to trigger config load
-            var o1 = extendedRequireStubbed.require("toload", false, __dirname + "/fixtures/package.json/valid");
-            chai.expect(o1).to.equal(__dirname + "/fixtures/package.json/valid/lib2/toload.js");
+            var o1 = extendedRequireStubbed.require("toload", false, __dirname + "/fixtures/package-json/valid");
+            chai.expect(o1).to.equal(__dirname + "/fixtures/package-json/valid/lib2/toload.js");
 
             // disable package-json-discover.load() that is used internally
             disablePjd = true;
-            var o2 = extendedRequireStubbed.require("toload", false, __dirname + "/fixtures/package.json/valid");
+            var o2 = extendedRequireStubbed.require("toload", false, __dirname + "/fixtures/package-json/valid");
             chai.expect(loadHasBeenCalled).to.equal(false);
         });
     });
